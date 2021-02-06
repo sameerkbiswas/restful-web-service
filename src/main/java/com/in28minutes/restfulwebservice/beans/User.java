@@ -8,18 +8,26 @@ import java.util.Date;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * @author Sameer
  * Created on Feb 2, 2021 10:34:29 AM
+ * @ApiModel and @ApiModelProperty annotations are used to show User information
+ * in Swagger document 
  */
+@ApiModel(description="All details about user.")
 public class User {
 	
 	private Integer id;
 	
 	@Size(min=2, message="Name should have at least 2 charecters.")
+	@ApiModelProperty(notes="Name should have at least 2 charecters.")
 	private String name;
 	
 	@Past(message="Date of birth should be a past date.")
+	@ApiModelProperty("Date of birth should be a past date.")
 	private Date dateOfBirth;
 
 	public User() {
