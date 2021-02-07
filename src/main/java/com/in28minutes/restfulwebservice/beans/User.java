@@ -5,6 +5,9 @@ package com.in28minutes.restfulwebservice.beans;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
@@ -18,8 +21,11 @@ import io.swagger.annotations.ApiModelProperty;
  * in Swagger document 
  */
 @ApiModel(description="All details about user.")
+@Entity	// To treat User as a JPA Entity
 public class User {
 	
+	@Id
+	@GeneratedValue	// To generate id by the Database
 	private Integer id;
 	
 	@Size(min=2, message="Name should have at least 2 charecters.")
