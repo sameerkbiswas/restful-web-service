@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.in28minutes.restfulwebservice.beans.Post;
 import com.in28minutes.restfulwebservice.beans.User;
 import com.in28minutes.restfulwebservice.exceptions.UserNotFoundException;
 import com.in28minutes.restfulwebservice.service.UserJpaService;
@@ -60,7 +61,7 @@ public class UserJpaController {
 	}
 	
 	@PostMapping("/users")
-	public ResponseEntity<Object> saveUser(@Valid @RequestBody User user) {
+	public ResponseEntity<User> saveUser(@Valid @RequestBody User user) {
 		User savedUser = userJpaService.save(user);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(savedUser.getId()).toUri();
@@ -70,5 +71,28 @@ public class UserJpaController {
 	@DeleteMapping("/users/{id}")
 	public void deleteUser(@PathVariable Integer id){
 		userJpaService.deleteById(id);
+	}
+	
+	@GetMapping("/users/{userId}/posts")
+	public ResponseEntity<List<Post>> retrieveAllPostsOfUser(@PathVariable Integer userId){
+		return ResponseEntity.ok(userJpaService.retrieveAllPostsOfUser(userId));
+	}
+	
+	@GetMapping("/users/{userId}/posts/{postId}")
+	public ResponseEntity<Post> retrieveAllPostById(@PathVariable Integer userId, @PathVariable Integer postId){
+		return ResponseEntity.ok(userJpaService.retrieveUserPostById(userId, postId));
+	}
+	
+	@PostMapping("/users/{userId}/posts")
+	public ResponseEntity<Post> savePost(@PathVariable Integer userId, @RequestBody Post post) {
+		Post savedPost = userJpaService.savePost(userId, post);
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+				.buildAndExpand(savedPost.getId()).toUri();
+		return ResponseEntity.created(location).build();
+	}
+	
+	@DeleteMapping("/users/{userId}/posts/{postId}")
+	public void deletePostById(@PathVariable Integer userId, @PathVariable Integer postId) {
+		userJpaService.deletePostById(userId, postId);
 	}
 }

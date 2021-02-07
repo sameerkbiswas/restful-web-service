@@ -6,6 +6,7 @@ package com.in28minutes.restfulwebservice.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.in28minutes.restfulwebservice.beans.Post;
 import com.in28minutes.restfulwebservice.beans.User;
 
 /**
@@ -14,8 +15,13 @@ import com.in28minutes.restfulwebservice.beans.User;
  */
 public interface UserJpaService {
 
-	public List<User> findAll();
-	public User save(User user);
-	public Optional<User> findById(Integer id);
-	public void deleteById(Integer id);
+	List<User> findAll();
+	User save(User user);
+	Optional<User> findById(Integer id);
+	void deleteById(Integer id);
+	
+	List<Post> retrieveAllPostsOfUser(Integer userId);
+	Post retrieveUserPostById(Integer userId, Integer postId);
+	Post savePost(Integer userId, Post post);
+	void deletePostById(Integer userId, Integer postId);
 }
